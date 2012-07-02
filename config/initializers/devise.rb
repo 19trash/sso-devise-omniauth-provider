@@ -3,7 +3,7 @@
 Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in DeviseMailer.
-  config.mailer_sender = "please-change-me@config-initializers-devise.com"
+  config.mailer_sender = "nemoxn@gmail.com"
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
@@ -69,7 +69,7 @@ Devise.setup do |config|
 
   # If true, uses the password salt as remember token. This should be turned
   # to false if you are not using database authenticatable.
-  config.use_salt_as_remember_token = true
+  #config.use_salt_as_remember_token = true
 
   # ==> Configuration for :validatable
   # Range for password length. Default is 6..20.
@@ -165,7 +165,7 @@ Devise.setup do |config|
   #   manager.failure_app = AnotherApp
   #   manager.default_strategies(:scope => :user).unshift :some_external_strategy
   # end
-  
+
   #config.warden do |manager|
     #manager.default_strategies(:scope => :user).unshift(:custom_database_authenticatable)
   #end

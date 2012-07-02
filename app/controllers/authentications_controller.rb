@@ -1,12 +1,12 @@
 class AuthenticationsController < ApplicationController
-  before_filter :authenticate_user!, :except => [:create, :link, :add]
+  before_filter :authenticate_user!, except: [:create, :link, :add]
 
   def index
     @authentications = current_user.authentications.all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @authentications }
+      format.xml  { render xml: @authentications }
     end
   end
 
@@ -16,9 +16,10 @@ class AuthenticationsController < ApplicationController
 
   def add
     user = User.find(params[:user_id])
+
     if user.valid_password?(params[:user][:password])
       omniauth = session[:omniauth]
-      user.authentications.create!(:provider => omniauth['provider'], :uid => omniauth['uid'])
+      user.authentications.create!(provider: omniauth['provider'], uid: omniauth['uid'])
       session[:omniauth] = nil
       sign_in_and_redirect(:user, user)
     else
@@ -34,12 +35,13 @@ class AuthenticationsController < ApplicationController
   # TODO: Account linking. Example, if a user has signed in via twitter using the
   # email abc@xyz.com and then signs in via Facebook with the same id, we should
   # link these 2 accounts. Since, we already have Authentication model in place,
-  # user should be asked for login credentials and then teh new authentication should 
+  # user should be asked for login credentials and then teh new authentication should
   # be linked.
   # (Gautam)
   def create
     omniauth = request.env['omniauth.auth']
     authentication = Authentication.find_by_provider_and_uid(omniauth['provider'], omniauth['uid'])
+
     if authentication
       flash[:notice] = "Signed in successfully"
       sign_in_and_redirect(:user, authentication.user)
@@ -47,6 +49,7 @@ class AuthenticationsController < ApplicationController
       user = User.new
       user.apply_omniauth(omniauth)
       user.email = omniauth['extra'] && omniauth['extra']['user_hash'] && omniauth['extra']['user_hash']['email']
+
       if user.save
         flash[:notice] = "Successfully registered"
         sign_in_and_redirect(:user, user)
